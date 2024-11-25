@@ -6,6 +6,7 @@ class KafkaProducer:
         }
         self.producer = Producer(self.producer_config)
 
+    # Topic should be the same topic as the consumer, is subscribed to
     def produce_message(self, topic: str, message: str):
         self.producer.produce(topic, message)
         print(f"Produced message: {message}")
