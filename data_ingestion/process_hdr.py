@@ -1,3 +1,4 @@
+import csv
 import json
 import os
 import pandas as pd
@@ -101,12 +102,47 @@ def generate_iso_to_noc():
 
     joined_df.to_csv("./generated_hdr_files/noc_iso_country.csv", columns=["NOC", "countryIsoCode", "country"])
 
-
+def handle_name_edge_cases():
+    edge_cases = [
+        #left is ISO name, right is NOC name. we should convert names in the iso
+        #codes file to NOC if they are in this edge case list
+        ["Bolivia (Plurinational State of)","Bolivia"],
+        ["Congo (Democratic Republic of the)", "Congo"],
+        ["Micronesia (Federated States of)","Federated States of Micronesia"],
+        ['"Hong Kong, China (SAR)"',"Hong Kong"],
+        ["Iran (Islamic Republic of)","Iran"],
+        ["Lao People's Democratic Republic", "Laos"],
+        ["Korea (Republic of)","South Korea"],
+        ["Moldova (Republic of)", "Moldova"],
+        ["Eswatini (Kingdom of)", "Eswatini"],
+        ["Tanzania (United Republic of)", "Tanzania"],
+        ["Venezuela (Bolivarian Republic of)","Venezuela"],
+        ['"Palestine, State of"', "Palestine"],
+        ["Syrian Arab Republic","Syria"],
+        ["Timor-Leste","Timor Leste"],
+        ["Guinea-Bissau", "Guinea Bissau"]
+    ]
+    ISO_file = "./generated_hdr_files/ISO_codes.csv"
+    ISO_codes = pd.read_csv(ISO_file)
+    corrected_data: list = []
+    for index, row in ISO_codes.iterrows():
+        name = row["country"]
+        for edge_case in edge_cases:
+            if name == edge_case[0]:
+                name = edge_case[1]
+        datapoint: dict = {"countryIsoCode": row["countryIsoCode"], "country":name}
+        corrected_data.append(datapoint)
+    with open(ISO_file, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=["countryIsoCode", "country"])
+        writer.writeheader()  # Write the header row
+        writer.writerows(corrected_data)  # Write the data rows
+        
 def main():
     os.makedirs("./generated_hdr_files", exist_ok=True)    
     fields = ["countryIsoCode","country","year","value"]
     filter_csv("./hdr_data.csv", "./generated_hdr_files/cleaned_hdr_data.csv", fields)
     filter_csv("./hdr_data.csv", "./generated_hdr_files/ISO_codes.csv", ["countryIsoCode","country"])
+    handle_name_edge_cases()
     filter_csv("./olympics_dataset.csv", "./generated_hdr_files/NOC_codes.csv", ["NOC","Team"])
     generate_iso_to_noc()
     iso_csv_to_noc_json("./generated_hdr_files/cleaned_hdr_data.csv", "./generated_hdr_files/hdr.json", "./generated_hdr_files/noc_iso_country.csv")
