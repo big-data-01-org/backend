@@ -29,4 +29,4 @@ jobs:
       # Push the Docker image to GHCR
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ github.repository }}/data_ingestion:latest -f data_ingestion/Dockerfile 
+          docker push ghcr.io/${{ github.repository }}/data_ingestion:latest
