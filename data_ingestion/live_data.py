@@ -1,4 +1,5 @@
 import pandas as pd
+from producer import KafkaProducer
 
 def filter_csv(input_file, output_file, fields_to_keep):
     """
@@ -25,4 +26,16 @@ def filter_csv(input_file, output_file, fields_to_keep):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
+def simulate_live_data(after:int, before: int):
+    producer = KafkaProducer()
+    df = pd.read_csv("./processed_olympics_dataset.csv")
+    for index, row in df.iterrows():
+        if row["Year"] > before and row["Year"]<after:
+            producer.produce_message("test",row)
+
+
+
+def main():
+    filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
+    #create kafka events for everything after 2016 (olympics 2020) and before 2024
+    simulate_live_data(2016,2020)

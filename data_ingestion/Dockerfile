@@ -10,4 +10,4 @@ COPY . /app
 
 RUN pip3 install -r requirements.txt
 
-ENTRYPOINT ["python3", "process_hdr.py"]
+ENTRYPOINT ["python3", "live_data.py"]
