@@ -6,7 +6,7 @@ from hdfs import InsecureClient
 import joblib
 
 # Connect to the HDFS server
-hdfs_url = 'http://localhost:9870'  # HDFS NameNode URL
+hdfs_url = 'http://hadoop-namenode:9870'  # HDFS NameNode URL
 user = 'root'  # Replace with your HDFS user
 client = InsecureClient(hdfs_url, user=user)
 
