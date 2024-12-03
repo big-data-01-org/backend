@@ -2,11 +2,11 @@
 
 FROM python:3.9-slim
 
-WORKDIR /prediction
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y
 
-COPY . /prediction
+COPY ML .
 
 RUN pip3 install -r requirements.txt
 
