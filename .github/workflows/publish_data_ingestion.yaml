@@ -26,6 +26,9 @@ jobs:
         run: |
           docker build -t ghcr.io/${{ github.repository }}/data_ingestion:latest -f data_ingestion/Dockerfile .
 
+      - name: List files
+        run: ls -R
+
       # Push the Docker image to GHCR
       - name: Push Docker Image
         run: |
