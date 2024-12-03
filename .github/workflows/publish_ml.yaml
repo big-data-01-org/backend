@@ -24,7 +24,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/ml:latest -f ML/Dockerfile .
+          docker build -t ghcr.io/${{ github.repository }}/machine-learning:latest -f ML/Dockerfile .
 
       - name: List files
         run: ls -R
@@ -32,4 +32,4 @@ jobs:
       # Push the Docker image to GHCR
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ github.repository }}/ml:latest
+          docker push ghcr.io/${{ github.repository }}/machine-learning:latest
