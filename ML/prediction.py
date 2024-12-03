@@ -1,3 +1,5 @@
+import os
+import joblib  # For saving models to disk
 import pandas as pd
 import numpy as np
 import json
@@ -7,24 +9,7 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-
-def load_hdr_data(file_path):
-    with open(file_path, 'r') as file:
-        hdr_json_data = json.load(file)
-    hdr_flattened = [
-        {
-            'country': country_data['country'],
-            'year': record['year'],
-            'value': record['value'],
-            'NOC': country_data['NOC']
-        }
-        for country_data in hdr_json_data for record in country_data['data']
-    ]
-    return pd.DataFrame(hdr_flattened)
-
-
-def load_olympic_data(file_path):
-    return pd.read_csv(file_path)
+from hdfs_connection import load_hdr_data, load_olympic_data
 
 
 def preprocess_olympic_data(olympic_data):
@@ -105,14 +90,26 @@ def print_metrics(country, metrics):
     )
 
 
+def save_models(models, save_dir="saved_models"):
+    """Saves all trained models to the specified directory."""
+    os.makedirs(save_dir, exist_ok=True)
+    for country, model in models.items():
+        model_path = os.path.join(save_dir, f"{country}_model.pkl")
+        joblib.dump(model, model_path)
+        print(f"Saved model for {country} to {model_path}")
+
+
 def main():
-    hdr_data = load_hdr_data('./hdr.json')
-    olympic_data = load_olympic_data('./olympics_dataset.csv')
+    hdr_data = load_hdr_data()
+    olympic_data = load_olympic_data()
     
     total_medals = preprocess_olympic_data(olympic_data)
     merged_data = merge_data(hdr_data, total_medals)
     
     models, metrics_results = train_and_evaluate_models(merged_data)
+    
+    # Save the models
+    save_models(models)
     
     metrics_df = pd.DataFrame.from_dict(metrics_results, orient='index')
     print(metrics_df)
