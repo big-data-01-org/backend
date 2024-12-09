@@ -22,7 +22,7 @@ def list_files(path):
 # Static path for HDFS
 hdfs_path = "/user/root"  # Replace with the fixed HDFS path
 
-def load_hdr_data(client):
+def load_hdr_data():
     """Load and process HDR data from a static path in HDFS."""
     file_path = f"{hdfs_path}/hdr.json"
     try:
@@ -42,7 +42,7 @@ def load_hdr_data(client):
         print(f"Error loading HDR data from {file_path}: {e}")
         return None
 
-def load_olympic_data(client):
+def load_olympic_data():
     """Load Olympic data from a static path in HDFS."""
     file_path = f"{hdfs_path}/olympics.csv"
     try:
