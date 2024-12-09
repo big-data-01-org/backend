@@ -24,7 +24,7 @@ hdfs_path = "/user/root"  # Replace with the fixed HDFS path
 
 def load_hdr_data():
     """Load and process HDR data from a static path in HDFS."""
-    file_path = f"{hdfs_path}/hdr.json"
+    file_path = f"{hdfs_path}/hdr_data/hdr.json"
     try:
         with client.read(file_path) as file:
             hdr_json_data = json.load(file)
@@ -64,6 +64,7 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
         file_format (str): Format to save the file ('csv', 'json', or 'pkl'). Defaults to 'csv'.
     """
     file_path = f"{hdfs_path}/models/{file_name}"
+    #file_path = f"{hdfs_path}/{file_name}"
     if client.acl_status(f"{hdfs_path}/models/") is None:
         client.makedirs(f"{hdfs_path}/models/", permission=None)
     try:
