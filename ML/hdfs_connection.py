@@ -65,7 +65,7 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
     """
     file_path = f"{hdfs_path}/models/{file_name}"
     #file_path = f"{hdfs_path}/{file_name}"
-    if client.acl_status(f"{hdfs_path}/models/") is None:
+    if client.acl_status(f"{hdfs_path}/models/", strict=False) is None:
         client.makedirs(f"{hdfs_path}/models/", permission=None)
     try:
         with client.write(file_path, overwrite=True) as file:
