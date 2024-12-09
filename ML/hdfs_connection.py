@@ -27,7 +27,7 @@ def load_hdr_data():
     file_path = f"{hdfs_path}/hdr.json"
     try:
         with client.read(file_path) as file:
-            hdr_json_data = json.load(file)
+            hdr_json_data = [json.loads(line) for line in open(file_path, 'r')]
         hdr_flattened = [
             {
                 'country': country_data['country'],
@@ -63,8 +63,8 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
         file_name (str): Name of the file (e.g., 'output.pkl').
         file_format (str): Format to save the file ('csv', 'json', or 'pkl'). Defaults to 'csv'.
     """
-    #file_path = f"{hdfs_path}/models/{file_name}"
-    file_path = f"{hdfs_path}/{file_name}"
+    file_path = f"{hdfs_path}/models/{file_name}"
+    #file_path = f"{hdfs_path}/{file_name}"
     if client.acl_status(f"{hdfs_path}/models/", strict=False) is None:
         client.makedirs(f"{hdfs_path}/models/", permission=None)
     try:
