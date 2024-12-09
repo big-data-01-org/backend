@@ -31,7 +31,7 @@ def simulate_live_data(after:int, before: int):
     df = pd.read_csv("./processed_olympics_dataset.csv")
     for index, row in df.iterrows():
         if row["Year"] <= before and row["Year"] >after:
-            message = {row["NOC"]}+","+{row["Year"]}+","+{row["Event"]}+","+{row["Medal"]}
+            message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
             producer.produce_message("test-topic",message)
 
 def main():
