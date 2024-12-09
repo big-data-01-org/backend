@@ -24,7 +24,7 @@ hdfs_path = "/user/root"  # Replace with the fixed HDFS path
 
 def load_hdr_data():
     """Load and process HDR data from a static path in HDFS."""
-    file_path = f"/hdr_data/hdr.json"
+    file_path = f"/hdr.json"
     try:
         with client.read(file_path) as file:
             hdr_json_data = json.load(file)
@@ -83,5 +83,5 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
 
 
 #print("Saving test data to HDFS...")
-save_file_to_hdfs(pd.read_csv("./hdr.json"), 'hdr.json', 'json')  
+save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
 save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')        
