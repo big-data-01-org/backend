@@ -9,6 +9,7 @@ def predict(country, year):
     """Predict the number of medals for a specific country in a given year."""
     # Load the model for the specified country
     country_data = load_country_data(country)
+    print(country_data)
     if country_data is None:
         return "No Country data found"
     
