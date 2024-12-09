@@ -34,8 +34,9 @@ def simulate_live_data(after:int, before: int):
             producer.produce_message("test",row)
 
 
-
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
     #create kafka events for everything after 2016 (olympics 2020) and before 2024
     simulate_live_data(2016,2020)
+
+main()
