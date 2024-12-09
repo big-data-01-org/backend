@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from hdfs import InsecureClient
 import joblib
+from io import BytesIO
 
 # Connect to the HDFS server
 hdfs_url = 'http://hadoop-namenode:9870'  # HDFS NameNode URL
@@ -28,7 +29,8 @@ def load_country_data(country):
     file_path = f"{hdfs_path}/models/{country}_model.pkl"
     try:
         with client.read(file_path) as file:
-            country_data = joblib.load(file)
+            file_content = BytesIO(file.read())
+            country_data = joblib.load(file_content)
         return country_data
     except Exception as e:
         print(f"Error loading data for {country} from {file_path}: {e}")
