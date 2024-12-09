@@ -30,6 +30,7 @@ def simulate_live_data(after:int, before: int):
     producer = KafkaProducer()
     print("hmmmmmmmmm")
     df = pd.read_csv("./processed_olympics_dataset.csv")
+    print(df)
     for index, row in df.iterrows():
         print("hmmmmmmmmm2")
         if row["Year"] > before and row["Year"]<after:
