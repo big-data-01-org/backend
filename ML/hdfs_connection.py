@@ -24,14 +24,14 @@ hdfs_path = "/user/root"  # Replace with the fixed HDFS path
 
 def load_hdr_data():
     """Load and process HDR data from a static path in HDFS."""
-    file_path = f"/hdr.json"
+    file_path = f"{hdfs_path}/hdr.json"
     try:
         with client.read(file_path) as file:
             hdr_json_data = json.load(file)
         hdr_flattened = [
             {
                 'country': country_data['country'],
-                'Year': record['year'],
+                'year': record['year'],
                 'value': record['value'],
                 'NOC': country_data['NOC']
             }
