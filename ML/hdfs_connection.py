@@ -83,5 +83,5 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
 
 
 #print("Saving test data to HDFS...")
-save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
-save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')        
+#save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
+#save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')        

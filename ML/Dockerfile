@@ -10,4 +10,4 @@ COPY ML .
 
 RUN pip3 install -r requirements.txt
 
-CMD ["python3", "hdfs_connection.py"]
+CMD ["python3", "prediction.py"]
