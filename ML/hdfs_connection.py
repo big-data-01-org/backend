@@ -27,7 +27,7 @@ def load_hdr_data():
     file_path = f"{hdfs_path}/hdr.json"
     try:
         with client.read(file_path) as file:
-            hdr_json_data = [json.loads(line) for line in open(file_path, 'r')]
+            hdr_json_data = [json.loads(line) for line in file]
         hdr_flattened = [
             {
                 'country': country_data['country'],
