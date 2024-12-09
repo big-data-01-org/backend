@@ -31,6 +31,7 @@ def load_country_data(country):
         with client.read(file_path) as file:
             file_content = BytesIO(file.read())
             country_data = joblib.load(file_content)
+        print(country_data)
         return country_data
     except Exception as e:
         print(f"Error loading data for {country} from {file_path}: {e}")
