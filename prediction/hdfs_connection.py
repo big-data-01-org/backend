@@ -29,7 +29,7 @@ def load_country_data(country):
     try:
         with client.read(file_path) as file:
             country_data = joblib.load(file)
-        return pd.DataFrame(country_data)
+        return country_data
     except Exception as e:
         print(f"Error loading data for {country} from {file_path}: {e}")
         return None

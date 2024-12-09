@@ -10,7 +10,7 @@ def predict(country, year):
     # Load the model for the specified country
     country_data = load_country_data(country)
     if country_data is None:
-        return None
+        return "No Country data found"
     
     # Prepare the input data for prediction
     X_pred = pd.DataFrame({'Year': [year], 'value': [country_data['value'].iloc[-1]]})
