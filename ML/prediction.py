@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from hdfs_connection import load_hdr_data, load_olympic_data
+from hdfs_connection import load_hdr_data, load_olympic_data, list_files, save_file_to_hdfs
 
 
 def preprocess_olympic_data(olympic_data):
@@ -90,12 +90,13 @@ def print_metrics(country, metrics):
     )
 
 
-def save_models(models, save_dir="saved_models"):
+def save_models(models, save_dir="models"):
     """Saves all trained models to the specified directory."""
     os.makedirs(save_dir, exist_ok=True)
     for country, model in models.items():
         model_path = os.path.join(save_dir, f"{country}_model.pkl")
         joblib.dump(model, model_path)
+        save_file_to_hdfs(model, f"{country}_model.pkl", file_format='pkl')
         print(f"Saved model for {country} to {model_path}")
 
 
@@ -110,6 +111,7 @@ def main():
     
     # Save the models
     save_models(models)
+    list_files('/user/root/models')
     
     metrics_df = pd.DataFrame.from_dict(metrics_results, orient='index')
     print(metrics_df)
@@ -119,6 +121,4 @@ def main():
     else:
         print("No metrics available for USA.")
 
-
-if __name__ == "__main__":
-    main()
+main()

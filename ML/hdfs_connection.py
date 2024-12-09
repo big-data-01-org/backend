@@ -10,13 +10,14 @@ hdfs_url = 'http://hadoop-namenode:9870'  # HDFS NameNode URL
 user = 'root'  # Replace with your HDFS user
 client = InsecureClient(hdfs_url, user=user)
 
-# Example: List files in the root directory
-print("Listing files in the root directory...")
-try:
-    files = client.list('/user/root')
-    print("Files in root directory:", files)
-except Exception as e:
-    print("Error connecting to HDFS:", e)
+
+def list_files(path):
+    """List files in the specified HDFS path."""
+    try:
+        files = client.list(path)
+        print(f"Files in {path}:", files)
+    except Exception as e:
+        print(f"Error listing files in {path}:", e)
 
 # Static path for HDFS
 hdfs_path = "/user/root"  # Replace with the fixed HDFS path
@@ -52,7 +53,7 @@ def load_olympic_data(client):
         print(f"Error loading Olympic data from {file_path}: {e}")
         return None
     
-def save_file_to_hdfs(client, df, file_name, file_format='csv'):
+def save_file_to_hdfs(df, file_name, file_format='csv'):
     """
     Save a DataFrame to HDFS in the specified format.
 
@@ -62,7 +63,9 @@ def save_file_to_hdfs(client, df, file_name, file_format='csv'):
         file_name (str): Name of the file (e.g., 'output.pkl').
         file_format (str): Format to save the file ('csv', 'json', or 'pkl'). Defaults to 'csv'.
     """
-    file_path = f"{hdfs_path}/{file_name}"
+    file_path = f"{hdfs_path}/models/{file_name}"
+    if client.acl_status(f"{hdfs_path}/models/") is None:
+        client.makedirs(f"{hdfs_path}/models/", permission=None)
     try:
         with client.write(file_path, overwrite=True) as file:
             if file_format == 'csv':
@@ -85,5 +88,5 @@ test_data = pd.DataFrame({
     'NOC': ['USA', 'USA', 'USA', 'USA', 'USA']
 })
 
-print("Saving test data to HDFS...")
-save_file_to_hdfs(client, test_data, 'testData.json', 'json')        
+#print("Saving test data to HDFS...")
+#save_file_to_hdfs(client, test_data, 'testData.json', 'json')        
