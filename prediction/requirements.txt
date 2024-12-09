@@ -4,4 +4,4 @@ scikit-learn==1.5.2
 confluent_kafka==2.6.0
 joblib==1.4.2
 hdfs==2.7.3
-io==3.13.1
+io
