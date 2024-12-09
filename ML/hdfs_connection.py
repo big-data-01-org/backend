@@ -90,4 +90,4 @@ test_data = pd.DataFrame({
 })
 
 #print("Saving test data to HDFS...")
-#save_file_to_hdfs(client, test_data, 'testData.json', 'json')        
+save_file_to_hdfs(json.load("./hdr.json"), 'hdr.json', 'json')        
