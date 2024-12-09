@@ -63,8 +63,8 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
         file_name (str): Name of the file (e.g., 'output.pkl').
         file_format (str): Format to save the file ('csv', 'json', or 'pkl'). Defaults to 'csv'.
     """
-    file_path = f"{hdfs_path}/models/{file_name}"
-    #file_path = f"{hdfs_path}/{file_name}"
+    #file_path = f"{hdfs_path}/models/{file_name}"
+    file_path = f"{hdfs_path}/{file_name}"
     if client.acl_status(f"{hdfs_path}/models/", strict=False) is None:
         client.makedirs(f"{hdfs_path}/models/", permission=None)
     try:
@@ -81,13 +81,7 @@ def save_file_to_hdfs(df, file_name, file_format='csv'):
     except Exception as e:
         print(f"Error saving file to {file_path}: {e}")
 
-test_data = pd.DataFrame({
-
-    'country': ['USA', 'USA', 'USA', 'USA', 'USA'],
-    'year': [2010, 2011, 2012, 2013, 2014],
-    'value': [10, 20, 30, 40, 50],
-    'NOC': ['USA', 'USA', 'USA', 'USA', 'USA']
-})
 
 #print("Saving test data to HDFS...")
-save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')        
+save_file_to_hdfs(pd.read_csv("./hdr.json"), 'hdr.json', 'json')  
+save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')        
