@@ -31,7 +31,7 @@ def load_hdr_data():
         hdr_flattened = [
             {
                 'country': country_data['country'],
-                'year': record['year'],
+                'Year': record['year'],
                 'value': record['value'],
                 'NOC': country_data['NOC']
             }
