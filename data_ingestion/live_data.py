@@ -28,11 +28,13 @@ def filter_csv(input_file, output_file, fields_to_keep):
 
 def simulate_live_data(after:int, before: int):
     producer = KafkaProducer()
-    df = pd.read_csv("./processed_olympics_dataset.csv")
-    for index, row in df.iterrows():
-        if row["Year"] <= before and row["Year"] >after:
-            message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
-            producer.produce_message("test-topic",message)
+    while True:
+        df = pd.read_csv("./processed_olympics_dataset.csv")
+        for index, row in df.iterrows():
+            if row["Year"] <= before and row["Year"] >after:
+                message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
+                producer.produce_message("olympics",message)
+    
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
