@@ -60,15 +60,15 @@ def load_hdr_data():
 def get_hdr_value(country, year):
     """Get the HDR value for a specific country and year."""
     hdr_data = load_hdr_data()
-    if hdr_data is not None:
-        result = hdr_data[(hdr_data['country'] == country) & (hdr_data['year'] == year)]
-        if not result.empty:
-            return result.iloc[0]['value']
-        else:
-            print(f"No HDR data found for country: {country} and year: {year}")
-            return None
-    else:
+    if hdr_data is None:
         print("HDR data could not be loaded.")
+        return None
+    
+    result = hdr_data[(hdr_data['NOC'] == country) & (hdr_data['year'] == year)]
+    if not result.empty:
+        return result.iloc[0]['value']
+    else:
+        print(f"No HDR data found for country: {country} and year: {year}")
         return None
 
 
