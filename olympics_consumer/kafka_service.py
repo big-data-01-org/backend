@@ -3,7 +3,7 @@ import os
 class KafkaConsumer:
     def __init__(self):
         self.consumer_config = {
-            'bootstrap.servers': 'kafka-service:9092',
+            'bootstrap.servers': 'kafka-service:30092',
             'group.id': 'backend-consumer-group',
             'auto.offset.reset': 'earliest',
         }
