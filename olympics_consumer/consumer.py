@@ -15,6 +15,7 @@ consumer_thread.start()
 # Function to update the message placeholder
 while True:
     if len(kafka_consumer.message) > 0:
+        print(kafka_consumer.message)
         append_to_olympics_csv(kafka_consumer.message)
         kafka_consumer.message = ''
         time.sleep(1)
