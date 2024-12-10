@@ -24,22 +24,23 @@ def append_to_olympics_csv(csv_string):
     file_path = f"{hdfs_path}/olympics.csv"
     try:
         # Check if the file exists in HDFS
-        if client.status(file_path, strict=False):
-            # Read the existing data from HDFS
-            with client.read(file_path) as file:
-                olympic_data = pd.read_csv(file)
-            
-            # Create a DataFrame from the new CSV string
-            new_data = pd.read_csv(io.StringIO(csv_string), sep=",")
-            
-            # Append the new data to the existing DataFrame
-            updated_data = pd.concat([olympic_data, new_data], ignore_index=True)
-            
-            # Remove duplicate rows
-            updated_data = updated_data.drop_duplicates()
-        else:
+        if client.acl_status(file_path, strict=False) is None:
             save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
             save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')   
+        # Read the existing data from HDFS
+        with client.read(file_path) as file:
+            olympic_data = pd.read_csv(file)
+        
+        # Create a DataFrame from the new CSV string
+        new_data = pd.read_csv(io.StringIO(csv_string), sep=",")
+        
+        # Append the new data to the existing DataFrame
+        updated_data = pd.concat([olympic_data, new_data], ignore_index=True)
+        
+        # Remove duplicate rows
+        updated_data = updated_data.drop_duplicates()
+
+            
         
         # Save the updated DataFrame back to HDFS
         with client.write(file_path, overwrite=True) as file:
