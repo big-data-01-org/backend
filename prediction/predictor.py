@@ -23,6 +23,6 @@ def predict(country, year):
     # Make the prediction
     y_pred = country_model.predict(X_pred)
     
-    return y_pred
+    return y_pred[0]
 
 print(predict('USA', 2020))
