@@ -1,4 +1,4 @@
-name: Build and Publish Consumer Image to GHCR
+name: Build and Publish olympics-consumer Image to GHCR
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/consumer:latest -f olympics_consumer/Dockerfile .
+          docker build -t ghcr.io/${{ github.repository }}/olympics-consumer:latest -f olympics_consumer/Dockerfile .
 
       - name: List files
         run: ls -R
@@ -32,4 +32,4 @@ jobs:
       # Push the Docker image to GHCR
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ github.repository }}/consumer:latest
+          docker push ghcr.io/${{ github.repository }}/olympics-consumer:latest
