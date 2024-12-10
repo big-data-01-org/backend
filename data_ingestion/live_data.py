@@ -32,9 +32,9 @@ def simulate_live_data(after:int, before: int):
     df = pd.read_csv("./processed_olympics_dataset.csv")
     for index, row in df.iterrows():
         if row["Year"] <= before and row["Year"] >after:
-            time.sleep(1)
             message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
-            producer.produce_message("olympics",message)    
+            producer.produce_message("olympics",message)
+            time.sleep(1)
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
