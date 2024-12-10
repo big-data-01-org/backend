@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from producer import KafkaProducer
 
@@ -32,11 +33,14 @@ def simulate_live_data(after:int, before: int):
     for index, row in df.iterrows():
         if row["Year"] <= before and row["Year"] >after:
             message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
-            producer.produce_message("test-topic",message)
+            producer.produce_message("olympics",message)
+            time.sleep(1)
+    
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
     #create kafka events for everything after 2016 (olympics 2020) and before 2024
-    simulate_live_data(2016,2020)
+    while True:
+        simulate_live_data(2016,2020)
 
 main()
