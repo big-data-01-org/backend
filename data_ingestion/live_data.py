@@ -35,7 +35,6 @@ def simulate_live_data(after:int, before: int):
             message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
             producer.produce_message("olympics",message)
             time.sleep(1)
-    
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
