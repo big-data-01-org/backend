@@ -24,7 +24,7 @@ jobs:
       # Build the Docker image
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/consumer:latest -f ML/Dockerfile .
+          docker build -t ghcr.io/${{ github.repository }}/consumer:latest -f olympics_consumer/Dockerfile .
 
       - name: List files
         run: ls -R
