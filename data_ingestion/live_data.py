@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from producer import KafkaProducer
 
@@ -34,6 +35,7 @@ def simulate_live_data(after:int, before: int):
             if row["Year"] <= before and row["Year"] >after:
                 message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
                 producer.produce_message("olympics",message)
+                time.sleep(1)
     
 
 def main():
