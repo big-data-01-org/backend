@@ -43,9 +43,36 @@ def append_to_olympics_csv(csv_string):
         
         print(f"Data successfully appended to {file_path} (duplicates removed)")
     except Exception as e:
+        save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
+        save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')   
         print(f"Error appending data to olympics.csv: {e}")
 
+def save_file_to_hdfs(df, file_name, file_format='csv'):
+    """
+    Save a DataFrame to HDFS in the specified format.
+
+    Args:
+        client (InsecureClient): HDFS client instance.
+        df (pd.DataFrame): DataFrame to save.
+        file_name (str): Name of the file (e.g., 'output.pkl').
+        file_format (str): Format to save the file ('csv', 'json', or 'pkl'). Defaults to 'csv'.
+    """
+    file_path = f"{hdfs_path}/{file_name}"
+    if client.acl_status(f"{hdfs_path}", strict=False) is None:
+        client.makedirs(f"{hdfs_path}", permission=None)
+    try:
+        with client.write(file_path, overwrite=True) as file:
+            if file_format == 'csv':
+                df.to_csv(file, index=False)
+            elif file_format == 'json':
+                df.to_json(file, orient='records', lines=True)
+            elif file_format == 'pkl':
+                joblib.dump(df, file)
+            else:
+                raise ValueError("Unsupported file format. Use 'csv', 'json', or 'pkl'.")
+        print(f"File saved successfully to {file_path}")
+    except Exception as e:
+        print(f"Error saving file to {file_path}: {e}")
 
 #print("Saving test data to HDFS...")
-#save_file_to_hdfs(pd.read_json("./hdr.json"), 'hdr.json', 'json')  
-#save_file_to_hdfs(pd.read_csv("./processed_olympics_dataset.csv"), 'olympics.csv', 'csv')        
+     
