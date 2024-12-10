@@ -1,5 +1,4 @@
 import threading
-import streamlit as st
 from kafka_service import KafkaConsumer
 from hdfs_connection import append_to_olympics_csv
 import time
