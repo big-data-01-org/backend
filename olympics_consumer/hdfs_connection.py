@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from hdfs import InsecureClient
 import joblib
+import io
 
 # Connect to the HDFS server
 hdfs_url = 'http://hadoop-namenode:9870'  # HDFS NameNode URL
@@ -27,7 +28,8 @@ def append_to_olympics_csv(csv_string):
             olympic_data = pd.read_csv(file)
         
         # Create a DataFrame from the new CSV string
-        new_data = pd.read_csv(pd.compat.StringIO(csv_string))
+        import io
+        new_data = pd.read_csv(io.StringIO(csv_string), sep=",")
         
         # Append the new data to the existing DataFrame
         updated_data = pd.concat([olympic_data, new_data], ignore_index=True)
