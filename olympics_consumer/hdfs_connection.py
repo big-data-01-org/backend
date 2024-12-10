@@ -39,8 +39,6 @@ def append_to_olympics_csv(csv_string):
         
         # Remove duplicate rows
         updated_data = updated_data.drop_duplicates()
-
-            
         
         # Save the updated DataFrame back to HDFS
         with client.write(file_path, overwrite=True) as file:
