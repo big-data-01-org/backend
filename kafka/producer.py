@@ -3,6 +3,8 @@ class KafkaProducer:
     def __init__(self):
         self.producer_config = {
             'bootstrap.servers': 'kafka-service:9092',
+            'group.id': 'backend-producer',
+            'auto.offset.reset': 'earliest',
         }
         self.producer = Producer(self.producer_config)
 
@@ -10,6 +12,7 @@ class KafkaProducer:
     def produce_message(self, topic: str, message: str):
         self.producer.produce(topic, message)
         print(f"Produced message: {message}")
+        self.producer.poll(0)
         self.producer.flush()
     
     def close(self):

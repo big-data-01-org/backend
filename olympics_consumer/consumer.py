@@ -3,6 +3,7 @@ from kafka_service import KafkaConsumer
 from hdfs_connection import append_to_olympics_csv
 import time
 import os
+
 def run_consumer(consumer: KafkaConsumer):
     consumer.consume_messages()
 

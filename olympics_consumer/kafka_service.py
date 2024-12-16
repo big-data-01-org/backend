@@ -9,9 +9,12 @@ class KafkaConsumer:
         }
         self.consumer = Consumer(self.consumer_config)
         self.message = ''
+        
+    def print_assignment(consumer, partitions):
+        print('Assignment:', partitions)
 
     def subscribe(self, topic: str):
-        self.consumer.subscribe([topic])
+        self.consumer.subscribe([topic], on_assign=self.print_assignment)
         os.write(1, b'Subscribed to topic...\n')
 
     def consume_messages(self):
