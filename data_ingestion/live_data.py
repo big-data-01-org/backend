@@ -34,7 +34,7 @@ def simulate_live_data(after:int, before: int):
         if row["Year"] <= before and row["Year"] >after:
             message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
             producer.produce_message("olympics",message)
-            time.slee(3)
+            time.sleep(3)
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
