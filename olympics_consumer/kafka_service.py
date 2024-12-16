@@ -5,7 +5,6 @@ class KafkaConsumer:
         self.consumer_config = {
             'bootstrap.servers': 'kafka-service:9092',
             'group.id': 'backend-consumer-group',
-            'auto.offset.reset': 'earliest',
         }
         self.consumer = Consumer(self.consumer_config)
         self.message = ''
@@ -20,7 +19,7 @@ class KafkaConsumer:
             while True:
                 msg = self.consumer.poll(timeout=1.0)
                 if msg is None:
-                    os.write(1, b'No messages found...\n')
+                    # os.write(1, b'No messages found...\n')
                     continue
                 if msg.error():
                     os.write(1, b'Consumer error...\n' + msg.error().str().encode('utf-8'))

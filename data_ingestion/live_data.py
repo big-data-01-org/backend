@@ -42,6 +42,6 @@ def main():
     
     while True:
         simulate_live_data(producer, 2016,2020)
-        time.sleep(5)
+        time.sleep(30)
 
 main()
