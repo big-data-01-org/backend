@@ -27,7 +27,7 @@ class KafkaConsumer:
                     continue
                 current_message = msg.value().decode('utf-8')
 
-                #os.write(1, (current_message + '\n').encode('utf-8'))
+                os.write(1, (current_message + '\n').encode('utf-8'))
                 self.message = current_message
         except KeyboardInterrupt:
             pass
