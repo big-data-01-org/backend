@@ -27,19 +27,21 @@ def filter_csv(input_file, output_file, fields_to_keep):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-def simulate_live_data(after:int, before: int):
-    producer = KafkaProducer()
+def simulate_live_data(producer, after:int, before: int):
     df = pd.read_csv("./processed_olympics_dataset.csv")
     for index, row in df.iterrows():
         if row["Year"] <= before and row["Year"] >after:
             message = str(row["NOC"])+","+str(row["Year"])+","+str(row["Event"])+","+str(row["Medal"])
             producer.produce_message("olympics",message)
-            time.sleep(3)
+    
 
 def main():
     filter_csv("./olympics_dataset.csv","./processed_olympics_dataset.csv", ["NOC","Year","Event","Medal"])
     #create kafka events for everything after 2016 (olympics 2020) and before 2024
+    producer = KafkaProducer()
+    
     while True:
-        simulate_live_data(2016,2020)
+        simulate_live_data(producer, 2016,2020)
+        time.sleep(5)
 
 main()
