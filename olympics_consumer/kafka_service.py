@@ -23,10 +23,10 @@ class KafkaConsumer:
             while True:
                 msg = self.consumer.poll(timeout=1.0)
                 if msg is None:
-                    #os.write(1, b'No messages found...\n')
+                    os.write(1, b'No messages found...\n')
                     continue
                 if msg.error():
-                    #os.write(1, b'Consumer error...\n')
+                    os.write(1, b'Consumer error...\n' + msg.error().str().encode('utf-8'))
                     continue
                 current_message = msg.value().decode('utf-8')
 
